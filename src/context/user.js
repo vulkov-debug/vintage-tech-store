@@ -12,6 +12,15 @@ function UserProvider({ children }) {
   //   const [user, setUser] = React.useState({ username: null, token: null });
   const [user, setUser] = React.useState(getUserFromLocalStorage());
 
+const [height, setHeight] = React.useState(0);
+
+React.useEffect (()=> {
+  window.addEventListener('scroll', ()=> {  
+    setHeight(window.pageYOffset)
+  });
+  return ()=> window.removeEventListener('scroll', ()=> {});
+})
+
   const userLogin = (user) => {
     setUser(user);
     localStorage.setItem("user", JSON.stringify(user));
@@ -37,7 +46,7 @@ const hideAlert = () => {
 }
 
   return (
-    <UserContext.Provider value={{ user, userLogin, userLogout, alert, showAlert, hideAlert }}>
+    <UserContext.Provider value={{ user, userLogin, userLogout, alert, showAlert, hideAlert, height}}>
       {children}
     </UserContext.Provider>
   );
